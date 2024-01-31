@@ -93,7 +93,8 @@ const struct lfs_config *lfs_new_config(
         lfs_size_t prog_size,
         lfs_size_t block_size,
         lfs_size_t block_count,
-        int32_t block_cycles) {
+        int32_t block_cycles,
+        lfs_size_t name_max) {
 
     struct lfs_config *cfg = malloc(sizeof(struct lfs_config));
     memset(cfg, 0, sizeof(struct lfs_config));
@@ -109,6 +110,7 @@ const struct lfs_config *lfs_new_config(
     cfg->lookahead_size = block_size;
     cfg->block_count = block_count;
     cfg->block_cycles = block_cycles;
+    cfg->name_max = name_max;
 
     return cfg;
 }
