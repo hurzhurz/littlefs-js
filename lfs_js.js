@@ -5,7 +5,7 @@ export const LFSModule = Module;
 const _n_ = 'number';
 const _s_ = 'string';
 const _lfs_new = Module.cwrap('lfs_new', _n_, []);
-const _lfs_new_config = Module.cwrap('lfs_new_config', _n_, [ _n_, _n_, _n_, _n_, _n_ ]);
+const _lfs_new_config = Module.cwrap('lfs_new_config', _n_, [ _n_, _n_, _n_, _n_, _n_, _n_ ]);
 const _lfs_new_info = Module.cwrap('lfs_new_info', _n_, []);
 const _lfs_new_file = Module.cwrap('lfs_new_file', _n_, []);
 const _lfs_new_dir = Module.cwrap('lfs_new_dir', _n_, []);
@@ -236,7 +236,7 @@ export class LFS {
      * @param {BlockDevice} bd block device
      * @param {number} block_cycles flash wear cycles
      */
-    constructor (bd, block_cycles) {
+    constructor (bd, block_cycles, name_max) {
         this.bd = bd;
         this._mount = false;
 
@@ -246,6 +246,7 @@ export class LFS {
         this.block_size = bd.block_size;
         this.block_count = bd.block_count;
         this.block_cycles = block_cycles;
+        this.name_max = name_max;
 
         // setup bd thunks
         this._readthunk = bd.read.bind(bd);
@@ -267,7 +268,7 @@ export class LFS {
         this._lfs_config = _lfs_new_config(
             this.read_size, this.prog_size,
             this.block_size, this.block_count,
-            this.block_cycles);
+            this.block_cycles, this.name_max);
         this._lfs = _lfs_new();
 
         globalLFSObject.set(this._lfs_config, this);
